@@ -7,6 +7,27 @@ const { sql } = require('@vercel/postgres');
 const bodyParser = require('body-parser');
 const path = require('path');
 
+
+
+const cors = require('cors');
+const helmet = require('helmet');
+const logger = require('./common/logger');
+
+// secure headers
+app.use(helmet());
+app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
+
+// tell express to use ip of request
+app.set('trust proxy', true);
+
+app.use(cors());
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+	extended: false,
+}));
+
+
 // Create application/x-www-form-urlencoded parser
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -105,6 +126,16 @@ app.get('/allUsers', async (req, res) => {
 		console.error(error);
 		res.status(500).send('Error retrieving users');
 	}
+});
+
+const initializeRoutes = require('./routes');
+const apiVersion = '/api/v1';
+
+// Use the routes with the defined API version
+initializeRoutes(app, apiVersion);
+
+app.get('/ping', (req, res) => {
+	res.status(200).end('Rocket fired 😎 you can contact satellite now 🛰️🛰️ 🛰️  !');
 });
 
 app.listen(3000, () => console.log('Server ready on port 3000.'));
