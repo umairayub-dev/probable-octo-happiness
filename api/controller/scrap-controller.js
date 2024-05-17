@@ -37,7 +37,8 @@ const filterInstagramUrls = (data) => {
             item.attr.href.includes('instagram.com') && 
             item.attr.href.includes('url=') && 
             !item.attr.href.includes('google.com') &&
-            !item.attr.href.includes('/search?q='))
+            !item.attr.href.includes('/search?q=') &&
+            !item.attr.href.includes('site:instagram.com'))
         .map(item => {
             const urlMatch = item.attr.href.match(/url=([^&]*)/);
             return urlMatch ? decodeURIComponent(urlMatch[1]) : null;
