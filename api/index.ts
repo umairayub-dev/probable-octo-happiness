@@ -8,10 +8,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 
-
 const cors = require('cors');
 const helmet = require('helmet');
-const logger = require('./common/logger');
 
 // secure headers
 app.use(helmet());
